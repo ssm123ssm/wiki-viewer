@@ -1,0 +1,556 @@
+
+
+<!DOCTYPE html>
+<html >
+
+<head>
+  <meta charset="UTF-8">
+ 
+  <title>Wikipedia viewer</title>
+  
+  
+  
+  <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css'>
+<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css'>
+
+      <style>
+      .frame {
+  padding: 5% 20px 20% 20px;
+  height: 100%;
+}
+
+.head {
+  padding-top: 20px;
+  min-width: 360px;
+  display: none;
+  font-family: Linux Libertine;
+  text-align: center;
+}
+
+.head:hover {
+  cursor: pointer;
+}
+
+.large {
+  font-size: 1.2em;
+}
+
+.logo-container {
+  min-width: 360px;
+  position: relative;
+  display: block;
+  text-align: center;
+}
+
+.logo {
+  width: 30%;
+  max-width: 800px;
+  min-width: 100px;
+}
+
+.search {
+  position: relative;
+  min-width: 360px;
+  padding: 5px 30px 20px 40px;
+  text-align: center;
+}
+
+#search {
+  margin: auto;
+  width: 70%;
+  max-width: 800px;
+  min-width: 220px;
+  padding: 12px 18px 12px 40px;
+}
+
+sr {
+  border: 1px solid #999;
+  padding: 3px 18px 3px 4px;
+  border-radius: 3px;
+  transition: background 0.4s;
+}
+
+.clearable {
+  background: #fff url(https://www.dropbox.com/s/zzbg4x1zw0jroh3/clear.gif?dl=1) no-repeat right -10px center;
+  border: 1px solid #999;
+  padding: 3px 18px 3px 4px;
+  border-radius: 3px;
+  transition: background 0.4s;
+}
+
+.clearable.x {
+  background: #fff url(https://www.dropbox.com/s/zzbg4x1zw0jroh3/clear.gif?dl=1) no-repeat right 10px center;
+}
+
+.clearable.onX {
+  cursor: pointer;
+}
+
+.clearable::-ms-clear {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.searchable {
+  background: #fff url(https://www.dropbox.com/s/8a7c3olbqsu6tmw/search.png?dl=1) no-repeat left -8px center;
+  border: 1px solid #999;
+  padding: 3px 18px 3px 4px;
+  border-radius: 3px;
+  transition: background 0.4s;
+}
+
+.buttons {
+  min-width: 360px;
+  margin: auto;
+  width: 90%;
+  max-width: 800px;
+  padding: 2px 20px 5px 20px;
+  text-align: center;
+}
+
+.btn {
+  width: 200px;
+  margin: 4px;
+}
+
+.results {
+  font-family: sans-serif;
+  min-width: 360px;
+  padding: 20px;
+  padding-top: 40px;
+  text-align: left;
+}
+
+.res-con {
+  border-top: 1px solid grey;
+  padding-top: 10px;
+  margin: auto;
+  width: 70%;
+  display: block;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.caption {
+  padding-top: 10px;
+  text-align: center;
+  font-size: 1.2em;
+  font-family: sans-serif;
+}
+.caption a {
+  text-decoration: none;
+  color: black;
+}
+.caption a:hover {
+  text-decoration: none;
+  color: blue;
+}
+
+.content {
+  text-align: center;
+}
+
+.footer {
+  padding-top: 20px;
+  margin-top: 10px;
+  border-top: 1px solid grey;
+  min-width: 360px;
+  text-align: center;
+  color: grey;
+  font-size: 15px;
+}
+.footer p a {
+  text-decoration: none;
+  color: grey;
+}
+.footer p a:hover {
+  cursor: pointer;
+}
+
+.cssload-thecube {
+  width: 30px;
+  height: 30px;
+  margin: 0 auto;
+  margin-top: 49px;
+  position: relative;
+  background-color: #ededed;
+  transform: rotateZ(45deg);
+  -o-transform: rotateZ(45deg);
+  -ms-transform: rotateZ(45deg);
+  -webkit-transform: rotateZ(45deg);
+  -moz-transform: rotateZ(45deg);
+}
+
+.cssload-thecube .cssload-cube {
+  position: relative;
+  transform: rotateZ(45deg);
+  -o-transform: rotateZ(45deg);
+  -ms-transform: rotateZ(45deg);
+  -webkit-transform: rotateZ(45deg);
+  -moz-transform: rotateZ(45deg);
+}
+
+.cssload-thecube .cssload-cube {
+  float: left;
+  width: 50%;
+  height: 50%;
+  position: relative;
+  transform: scale(1.1);
+  -o-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+}
+
+.cssload-thecube .cssload-cube:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #2ba0c7;
+  animation: cssload-fold-thecube 2.76s infinite linear both;
+  -o-animation: cssload-fold-thecube 2.76s infinite linear both;
+  -ms-animation: cssload-fold-thecube 2.76s infinite linear both;
+  -webkit-animation: cssload-fold-thecube 2.76s infinite linear both;
+  -moz-animation: cssload-fold-thecube 2.76s infinite linear both;
+  transform-origin: 100% 100%;
+  -o-transform-origin: 100% 100%;
+  -ms-transform-origin: 100% 100%;
+  -webkit-transform-origin: 100% 100%;
+  -moz-transform-origin: 100% 100%;
+}
+
+.cssload-thecube .cssload-c2 {
+  transform: scale(1.1) rotateZ(90deg);
+  -o-transform: scale(1.1) rotateZ(90deg);
+  -ms-transform: scale(1.1) rotateZ(90deg);
+  -webkit-transform: scale(1.1) rotateZ(90deg);
+  -moz-transform: scale(1.1) rotateZ(90deg);
+}
+
+.cssload-thecube .cssload-c3 {
+  transform: scale(1.1) rotateZ(180deg);
+  -o-transform: scale(1.1) rotateZ(180deg);
+  -ms-transform: scale(1.1) rotateZ(180deg);
+  -webkit-transform: scale(1.1) rotateZ(180deg);
+  -moz-transform: scale(1.1) rotateZ(180deg);
+}
+
+.cssload-thecube .cssload-c4 {
+  transform: scale(1.1) rotateZ(270deg);
+  -o-transform: scale(1.1) rotateZ(270deg);
+  -ms-transform: scale(1.1) rotateZ(270deg);
+  -webkit-transform: scale(1.1) rotateZ(270deg);
+  -moz-transform: scale(1.1) rotateZ(270deg);
+}
+
+.cssload-thecube .cssload-c2:before {
+  animation-delay: 0.35s;
+  -o-animation-delay: 0.35s;
+  -ms-animation-delay: 0.35s;
+  -webkit-animation-delay: 0.35s;
+  -moz-animation-delay: 0.35s;
+}
+
+.cssload-thecube .cssload-c3:before {
+  animation-delay: 0.69s;
+  -o-animation-delay: 0.69s;
+  -ms-animation-delay: 0.69s;
+  -webkit-animation-delay: 0.69s;
+  -moz-animation-delay: 0.69s;
+}
+
+.cssload-thecube .cssload-c4:before {
+  animation-delay: 1.04s;
+  -o-animation-delay: 1.04s;
+  -ms-animation-delay: 1.04s;
+  -webkit-animation-delay: 1.04s;
+  -moz-animation-delay: 1.04s;
+}
+
+@keyframes cssload-fold-thecube {
+  0%,
+  10% {
+    transform: perspective(136px) rotateX(-180deg);
+    opacity: 0;
+  }
+  25%,
+  75% {
+    transform: perspective(136px) rotateX(0deg);
+    opacity: 1;
+  }
+  90%,
+  100% {
+    transform: perspective(136px) rotateY(180deg);
+    opacity: 0;
+  }
+}
+@-o-keyframes cssload-fold-thecube {
+  0%,
+  10% {
+    -o-transform: perspective(136px) rotateX(-180deg);
+    opacity: 0;
+  }
+  25%,
+  75% {
+    -o-transform: perspective(136px) rotateX(0deg);
+    opacity: 1;
+  }
+  90%,
+  100% {
+    -o-transform: perspective(136px) rotateY(180deg);
+    opacity: 0;
+  }
+}
+@-ms-keyframes cssload-fold-thecube {
+  0%,
+  10% {
+    -ms-transform: perspective(136px) rotateX(-180deg);
+    opacity: 0;
+  }
+  25%,
+  75% {
+    -ms-transform: perspective(136px) rotateX(0deg);
+    opacity: 1;
+  }
+  90%,
+  100% {
+    -ms-transform: perspective(136px) rotateY(180deg);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes cssload-fold-thecube {
+  0%,
+  10% {
+    -webkit-transform: perspective(136px) rotateX(-180deg);
+    opacity: 0;
+  }
+  25%,
+  75% {
+    -webkit-transform: perspective(136px) rotateX(0deg);
+    opacity: 1;
+  }
+  90%,
+  100% {
+    -webkit-transform: perspective(136px) rotateY(180deg);
+    opacity: 0;
+  }
+}
+@-moz-keyframes cssload-fold-thecube {
+  0%,
+  10% {
+    -moz-transform: perspective(136px) rotateX(-180deg);
+    opacity: 0;
+  }
+  25%,
+  75% {
+    -moz-transform: perspective(136px) rotateX(0deg);
+    opacity: 1;
+  }
+  90%,
+  100% {
+    -moz-transform: perspective(136px) rotateY(180deg);
+    opacity: 0;
+  }
+}
+.loading {
+  display: none;
+  min-width: 360px;
+}
+
+.viewer {
+  padding-top: 0px;
+  display: block;
+  text-align: center;
+  font-family: Linux Libertine;
+  min-width: 360px;
+  padding-bottom: 30px;
+}
+
+    </style>
+
+  
+  
+  
+  
+</head>
+
+<body translate="no" >
+
+  <div class="container-fluid">
+  <div class="frame">
+    <div class="head">
+      <h5><span class="large">W</span>IKIPEDI<span class="large">A</span></h5>
+    </div>
+    <div class="logo-container">
+      <div class="logo-d"><img src="https://www.dropbox.com/s/58tkil8h012dgvf/w.jpg?dl=1" alt="Wiki logo" class="img-responsive logo" /></div>
+    </div>
+    <div class="viewer">
+      <h4>Viewer</h4></div>
+    <div class="search">
+
+
+      <div class="ui-widget">
+        <input id="search" class="sr clearable searchable" type="search" name="search" placeholder="Search..">
+      </div>
+
+
+    </div>
+    <div class="buttons">
+      <button id="search-btn" class="btn btn-faded">Search</button>
+      <button id="random-btn" class="btn btn-faded">Random Article</button>
+    </div>
+    <div class="loading">
+      <div class="cssload-thecube">
+        <div class="cssload-cube cssload-c1"></div>
+        <div class="cssload-cube cssload-c2"></div>
+        <div class="cssload-cube cssload-c4"></div>
+        <div class="cssload-cube cssload-c3"></div>
+      </div>
+
+    </div>
+    <div class="results"></div>
+    <div class="footer">
+      <p>Created by <a href="#" target="_blank">Supun Manathunga</a>
+        <div>
+        </div>
+    </div>
+  
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.js'></script>
+
+    <script>
+    $(document).ready(function() {
+  setTimeout(function() {
+    $("#search").focus();
+  }, 200);
+  var query;
+  var input;
+  var base =
+    "https://en.wikipedia.org/w/api.php?action=opensearch&limit=10&namespace=0&format=json&search=";
+  //click events
+  $("#search-btn").on("click", search);
+  $(".head").on("click", back);
+  $(document).keydown(function(e) {
+    if (e.which == 13) {
+      search();
+    } else if (e.which == 27) {
+      back();
+    }
+  });
+  $("#random-btn").on("click", function() {
+    window.open("https://en.wikipedia.org/wiki/Special:Random", "_blank");
+  });
+
+  function tog(v) {
+    return v ? "addClass" : "removeClass";
+  }
+  $(document)
+    .on("input", ".sr", function() {
+      $(this)[tog(this.value)]("x");
+    })
+    .on("mousemove", ".x", function(e) {
+      $(this)[
+        tog(
+          this.offsetWidth - 18 < e.clientX - this.getBoundingClientRect().left
+        )
+      ]("onX");
+    })
+    .on("touchstart click", ".onX", function(ev) {
+      ev.preventDefault();
+      $(this).removeClass("x onX").val("").change();
+    });
+
+
+  
+  //Search suggestions
+  var tags = new Array();
+  var qr = "";
+  $("#search").on("keyup", function() {
+    qr = $("#search").val();
+    var back_query = base + encodeURI(qr) + "&callback=?";
+    getBackRes(back_query);
+  });
+  function getBackRes(back_query) {
+    console.log("back query: " + back_query);
+    $.getJSON(back_query, function(data) {
+      tags = data[1];
+      $("#search").autocomplete({
+        source: tags,
+        select: function(event, ui) {
+          $("#search").val(ui.item.value);
+          search();
+        }
+      });
+      console.log(tags);
+    });
+  }
+  //
+  
+  
+  function search() {
+    setLayout();
+    input = $("#search").val();
+    console.log("input: " + input);
+    query = base + encodeURI(input) + "&callback=?";
+
+    getResult();
+  }
+  function setLayout() {
+    $(".viewer").css("display", "none");
+    $(".loading").css("display", "block");
+    $(".logo-container").css("display", "none");
+    $(".head").css("display", "block");
+    $(".frame").css("padding-top", "10px");
+    $(".results").html("");
+  }
+  function back() {
+    $(".viewer").css("display", "block");
+    $(".loading").css("display", "none");
+    $(".logo-container").css("display", "block");
+    $(".head").css("display", "none");
+    $(".frame").css("padding-top", "5%");
+    $(".results").html("");
+  }
+  function getResult() {
+    console.log("query: " + query);
+    $.getJSON(query, function(data) {
+      console.log(data[1]);
+      $(".loading").css("display", "none");
+      process(data);
+    });
+
+    //});
+  }
+  function process(data) {
+    for (var i = 0; i < data[1].length; i++) {
+      var caption =
+        "<div class='caption'>" +
+        "<a href=" +
+        data[3][i] +
+        " target='_blank'>" +
+        data[1][i] +
+        "</a>" +
+        "</div>";
+      var content = "<div class='content'>" + data[2][i] + "</div>";
+
+      var stab = "<div class='res-con'>" + caption + content + "</div>";
+
+      $(".results").append(stab);
+    }
+  }
+});
+  </script>
+
+  
+  
+
+</body>
+</html>
+ 
